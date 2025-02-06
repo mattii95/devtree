@@ -4,14 +4,17 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "build" : "tsc",
+    "build": "tsc",
     "start": "node dist/index.js"
   },
   "author": "Matias Courroux",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.21.2"
+    "colors": "^1.4.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.7"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
