@@ -5,7 +5,7 @@ services:
     image: mongo:5
     restart: always
     environment:
-      - MONGO_INITDB_DATABASE=devtree
+      - MONGODB_DATABASE=devtree
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=123456
     ports:
