@@ -2,16 +2,9 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import slug from 'slug'
 import User from "../models/User";
-import { hashPassword } from '../utils/auth';
+import { checkPassword, hashPassword } from '../utils/auth';
 
 export const createAccount = async (req: Request, res: Response) => {
-
-    // Errores
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        res.status(400).json({errors: errors.array()});
-        return;
-    }
 
     const { email, password } = req.body;
     const userExists = await User.findOne({ email });
@@ -36,4 +29,25 @@ export const createAccount = async (req: Request, res: Response) => {
     await user.save();
 
     res.send('Registro creado Correctamente');
+}
+
+export const login = async (req: Request, res: Response) => {
+
+    // Revisar si el usuario esta registrado
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+        const error = new Error('El usuario no existe.');
+        res.status(404).json({ error: error.message });
+        return;
+    }
+
+    // Comprobar el password
+    const isPasswordCorrect = await checkPassword(password, user.password);
+    if (!isPasswordCorrect) {
+        const error = new Error('Credenciales invalidas');
+        res.status(401).json({ error: error.message });
+        return;
+    }
+
 }
